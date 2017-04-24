@@ -1,11 +1,12 @@
 package br.cefetrj.eic.ppcic.apa.al;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author rtavares
  */
-public class GaussianElimination implements Method {
+public class GaussianEliminationX implements Method {
 	
 	public static void main(String[] args){
 		
@@ -79,12 +80,12 @@ public class GaussianElimination implements Method {
 
             for (int i = p + 1; i < qtdLinhas; i++) {
                 
-            	double fator = a[i][p] / a[p][p];
+            	BigDecimal fator = new BigDecimal(a[i][p]).setScale(2, BigDecimal.ROUND_HALF_EVEN).divide(new BigDecimal(a[p][p]));
                 
-            	b[i] -= fator * b[p];
+            	b[i] -= fator.multiply(new BigDecimal(b[p]).setScale(2, BigDecimal.ROUND_HALF_EVEN)).doubleValue();
                 
                 for (int j = p; j < qtdLinhas; j++) {
-                    a[i][j] -= fator * a[p][j];
+                    a[i][j] -= fator.multiply(new BigDecimal(a[p][j]).setScale(2, BigDecimal.ROUND_HALF_EVEN)).doubleValue();
                 }
                 
             }
@@ -100,10 +101,10 @@ public class GaussianElimination implements Method {
         	double soma = 0.0;
             
             for (int j = i + 1; j < qtdLinhas; j++) {
-            	soma += a[i][j] * x[j];
+            	soma += new BigDecimal(a[i][j]).setScale(2, BigDecimal.ROUND_HALF_EVEN).multiply(new BigDecimal(x[j]).setScale(2, BigDecimal.ROUND_HALF_EVEN)).doubleValue();
             }
             
-            x[i] = (b[i] - soma) / a[i][i];
+            x[i] = new BigDecimal((b[i] - soma)).setScale(2, BigDecimal.ROUND_HALF_EVEN).divide(new BigDecimal(a[i][i]).setScale(2, BigDecimal.ROUND_HALF_EVEN)).doubleValue();
             
         }
         
